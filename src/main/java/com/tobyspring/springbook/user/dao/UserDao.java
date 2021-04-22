@@ -9,10 +9,11 @@ import java.sql.SQLException;
 import com.tobyspring.springbook.user.domain.User;
 
 /**
- * 1.1 초난감 DAO
+ * 1.1 초난감 DAO, 1.2 DAO의 분리
  * 
  * @author Yunho Jung
  * @since 2021.04.21
+ * 
  */
 public class UserDao {
 
@@ -23,59 +24,60 @@ public class UserDao {
 	 * @throws SQLException
 	 */
 	public void add(User user) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		// 1. getConnection
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/springbook", "Spring", "book");
-		// 2. preparedStatement
+		Connection conn = getConnection();
 		PreparedStatement ps = conn.prepareStatement("insert into users(id, name, password) valeus(?, ?, ?)");
 
-		// 3. query
 		ps.setString(1, user.getId());
 		ps.setString(2, user.getName());
 		ps.setString(3, user.getPassword());
-		// 4. execute
+
 		ps.executeUpdate();
-		// ps.close
 		ps.close();
-		// conn.close
 		conn.close();
 	}
 
 	/**
 	 * 
 	 * @param id
-	 * @return
+	 * @return User
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
 	public User get(String id) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		// 1. getConnection
-		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/springbook", "Spring", "book");
-		// 2. preparedStatement
+		Connection conn = getConnection();
+
 		PreparedStatement ps = conn.prepareStatement("select * from users where id = ?");
 
-		// 3. query
 		ps.setString(1, id);
 
-		// 4. execute
 		ResultSet rs = ps.executeQuery();
 
-		// 5. getResultSet
 		rs.next();
 		User user = new User();
 		user.setId(rs.getString("id"));
 		user.setName(rs.getString("name"));
 		user.setPassword(rs.getNString("password"));
-		// rs.close
 		rs.close();
 
-		// ps.close
 		ps.close();
-		// conn.close
 		conn.close();
 
 		return user;
+	}
+
+	/**
+	 * 중복되는 코드 부분 메소드 추출 : Connection을 가져오는 중복 코드 부분 분리
+	 * @return Connection
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private Connection getConnection() throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		// 1. getConnection
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/springbook", "Spring", "book");
+
+		return conn;
+
 	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
