@@ -15,16 +15,20 @@ import com.tobyspring.springbook.user.domain.User;
  * - DB Connection 만들기 독립, 상속을 통한 확장
  * 1.3 DAO의 확장
  * - 1.3.1 클래스의 분리 : 두 개의 관심사를 독립시키면서 확장하는 방법
+ * - 1.3.2 인터페이스 도입 : ConnectionMaker를 인터페이스로 추상화시켜 해당 기능 확장 용이성 확보
  * 
  * @author Yunho Jung
  * @since 2021.04.21
  * 
  */
 public class UserDao {
-	private SimpleConnectionMaker simpleConnectionMaker;
+//	private SimpleConnectionMaker simpleConnectionMaker;
+	private ConnectionMaker connectionMaker;
 	
 	public UserDao() {
-		simpleConnectionMaker = new SimpleConnectionMaker(); 
+//		simpleConnectionMaker = new SimpleConnectionMaker();
+		connectionMaker = new DConnectionMaker();
+		
 	}
 
 	/**
@@ -34,7 +38,7 @@ public class UserDao {
 	 * @throws SQLException
 	 */
 	public void add(User user) throws ClassNotFoundException, SQLException {
-		Connection conn = simpleConnectionMaker.makeNewConnection();
+		Connection conn = connectionMaker.makeConnection();
 		PreparedStatement ps = conn.prepareStatement("insert into users(id, name, password) valeus(?, ?, ?)");
 
 		ps.setString(1, user.getId());
@@ -54,7 +58,7 @@ public class UserDao {
 	 * @throws SQLException
 	 */
 	public User get(String id) throws ClassNotFoundException, SQLException {
-		Connection conn = simpleConnectionMaker.makeNewConnection();
+		Connection conn = connectionMaker.makeConnection();
 		PreparedStatement ps = conn.prepareStatement("select * from users where id = ?");
 
 		ps.setString(1, id);
