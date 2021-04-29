@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * @author Yunho Jung
  * @since 2021.04.24
  */
-public class NUserDao extends UserDao {
+//public class NUserDao extends UserDao {
 
 //	@Override
 //	public Connection getConnection() throws ClassNotFoundException, SQLException {
@@ -19,4 +19,4 @@ public class NUserDao extends UserDao {
 //		return null;
 //	}
 
-}
+//}
