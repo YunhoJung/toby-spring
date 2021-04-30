@@ -23,14 +23,10 @@ import com.tobyspring.springbook.user.domain.User;
  * 
  */
 public class UserDao {
-//	private SimpleConnectionMaker simpleConnectionMaker;
 	private ConnectionMaker connectionMaker;
 	
 	public UserDao(ConnectionMaker connectionMaker) {
-//		simpleConnectionMaker = new SimpleConnectionMaker();
-//		connectionMaker = new DConnectionMaker();
 		this.connectionMaker = connectionMaker;
-		
 	}
 
 	/**
@@ -79,41 +75,5 @@ public class UserDao {
 
 		return user;
 	}
-
-	/**
-	 * 중복되는 코드 부분 메소드 추출 : Connection을 가져오는 중복 코드 부분 분리
-	 * 
-	 * @return Connection
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-//	private Connection getConnection() throws ClassNotFoundException, SQLException {
-//		Class.forName("com.mysql.jdbc.Driver");
-//		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/springbook", "Spring", "book");
-//
-//		return conn
-//
-//	}
-//	public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
-
-//	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//		UserDao userDao = new UserDao();
-//
-//		User user = new User();
-//		user.setId("yunhojung");
-//		user.setName("정윤호");
-//		user.setPassword("1234");
-//
-//		userDao.add(user);
-//
-//		System.out.println(user.getId() + "등록 성공");
-//
-//		User user2 = userDao.get(user.getId());
-//		System.out.println(user2.getName());
-//		System.out.println(user2.getPassword());
-//
-//		System.out.println(user2.getId() + "조회 성공");
-//
-//	}
 
 }
