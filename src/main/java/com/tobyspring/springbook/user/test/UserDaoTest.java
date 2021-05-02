@@ -2,6 +2,9 @@ package com.tobyspring.springbook.user.test;
 
 import java.sql.SQLException;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
 import com.tobyspring.springbook.user.dao.ConnectionMaker;
 import com.tobyspring.springbook.user.dao.DConnectionMaker;
 import com.tobyspring.springbook.user.dao.DaoFactory;
@@ -14,6 +17,8 @@ import com.tobyspring.springbook.user.domain.User;
  * 1.4 제어의 역전(IoC)
  * - 1.4.1 오브젝트 팩토리
  * - 1.4.2 오브젝트 팩토리의 활용 : ConnectionMaker의 구현 클래스를 결정하고 오브젝트를 만드는 코드 분리
+ * 1.5 스프링의 IoC
+ * - 1.5.1 오브젝트 팩토리를 이용한 스프링 IoC
  * 
  * @author Yunho Jung
  * @since 2021.04.29
@@ -25,7 +30,9 @@ public class UserDaoTest {
 //		ConnectionMaker connectionMaker = new DConnectionMaker();
 
 //		UserDao userDao = new UserDao(connectionMaker);
-		UserDao userDao = new DaoFactory().userDao();
+//		UserDao userDao = new DaoFactory().userDao();
+		ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+		UserDao userDao = context.getBean("userDao", UserDao.class);
 
 		User user = new User();
 		user.setId("yunhojung");
