@@ -17,6 +17,8 @@ import com.tobyspring.springbook.user.domain.User;
  * - 1.3.1 클래스의 분리 : 두 개의 관심사를 독립시키면서 확장하는 방법
  * - 1.3.2 인터페이스 도입 : ConnectionMaker를 인터페이스로 추상화시켜 해당 기능 확장 용이성 확보
  * - 1.3.3 관계설정 책임의 분리 : UserDao가 ConnectionMaker 구현 클래스의 오브젝트를 외부에서 주입받게 함으로써 의존 관계 제거
+ * 1.7 의존관계 주입(DI)
+ * - 1.7.5 메소드를 이용한 의존관계 주입
  * 
  * @author Yunho Jung
  * @since 2021.04.21
@@ -25,7 +27,15 @@ import com.tobyspring.springbook.user.domain.User;
 public class UserDao {
 	private ConnectionMaker connectionMaker;
 	
-	public UserDao(ConnectionMaker connectionMaker) {
+//	public UserDao(ConnectionMaker connectionMaker) {
+//		this.connectionMaker = connectionMaker;
+//	}
+	
+	/**
+	 * 
+	 * @param connectionMaker
+	 */
+	public void setConnectionMaker(ConnectionMaker connectionMaker) {
 		this.connectionMaker = connectionMaker;
 	}
 
