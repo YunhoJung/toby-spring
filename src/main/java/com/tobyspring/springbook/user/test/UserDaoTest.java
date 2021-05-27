@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 import com.tobyspring.springbook.user.dao.ConnectionMaker;
 import com.tobyspring.springbook.user.dao.DConnectionMaker;
@@ -19,6 +20,8 @@ import com.tobyspring.springbook.user.domain.User;
  * - 1.4.2 오브젝트 팩토리의 활용 : ConnectionMaker의 구현 클래스를 결정하고 오브젝트를 만드는 코드 분리
  * 1.5 스프링의 IoC
  * - 1.5.1 오브젝트 팩토리를 이용한 스프링 IoC
+ * 1.8 XML을 이용한 설정
+ * - 1.8.2 XML을 이용하는 애플리케이션 컨텍스트
  * 
  * @author Yunho Jung
  * @since 2021.04.29
@@ -31,7 +34,8 @@ public class UserDaoTest {
 
 //		UserDao userDao = new UserDao(connectionMaker);
 //		UserDao userDao = new DaoFactory().userDao();
-		ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+//		ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+		ApplicationContext context = new GenericXmlApplicationContext("classpath:applicationContext.xml");
 		UserDao userDao = context.getBean("userDao", UserDao.class);
 
 		User user = new User();
