@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import com.tobyspring.springbook.user.domain.User;
 
 /**
@@ -19,34 +21,28 @@ import com.tobyspring.springbook.user.domain.User;
  * - 1.3.3 관계설정 책임의 분리 : UserDao가 ConnectionMaker 구현 클래스의 오브젝트를 외부에서 주입받게 함으로써 의존 관계 제거
  * 1.7 의존관계 주입(DI)
  * - 1.7.5 메소드를 이용한 의존관계 주입
+ * 1.8 XML을 이용한 설정
+ * - 1.8.3 DataSource 인터페이스로 변환
  * 
  * @author Yunho Jung
  * @since 2021.04.21
  * 
  */
 public class UserDao {
-	private ConnectionMaker connectionMaker;
+	private DataSource dataSource;
 	
-//	public UserDao(ConnectionMaker connectionMaker) {
-//		this.connectionMaker = connectionMaker;
-//	}
-	
-	/**
-	 * 
-	 * @param connectionMaker
-	 */
-	public void setConnectionMaker(ConnectionMaker connectionMaker) {
-		this.connectionMaker = connectionMaker;
+
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	/**
 	 * 
 	 * @param user
-	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public void add(User user) throws ClassNotFoundException, SQLException {
-		Connection conn = connectionMaker.makeConnection();
+	public void add(User user) throws SQLException {
+		Connection conn = dataSource.getConnection();
 		PreparedStatement ps = conn.prepareStatement("insert into users(id, name, password) valeus(?, ?, ?)");
 
 		ps.setString(1, user.getId());
@@ -61,12 +57,11 @@ public class UserDao {
 	/**
 	 * 
 	 * @param id
-	 * @return User
-	 * @throws ClassNotFoundException
+	 * @return
 	 * @throws SQLException
 	 */
-	public User get(String id) throws ClassNotFoundException, SQLException {
-		Connection conn = connectionMaker.makeConnection();
+	public User get(String id) throws SQLException {
+		Connection conn = dataSource.getConnection();
 		PreparedStatement ps = conn.prepareStatement("select * from users where id = ?");
 
 		ps.setString(1, id);

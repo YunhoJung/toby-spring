@@ -34,8 +34,8 @@ public class UserDaoTest {
 
 //		UserDao userDao = new UserDao(connectionMaker);
 //		UserDao userDao = new DaoFactory().userDao();
-//		ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-		ApplicationContext context = new GenericXmlApplicationContext("classpath:applicationContext.xml");
+		ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+//		ApplicationContext context = new GenericXmlApplicationContext("classpath:applicationContext.xml");
 		UserDao userDao = context.getBean("userDao", UserDao.class);
 
 		User user = new User();
