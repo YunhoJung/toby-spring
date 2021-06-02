@@ -22,6 +22,7 @@ import com.tobyspring.springbook.user.domain.User;
  * - 1.5.1 오브젝트 팩토리를 이용한 스프링 IoC
  * 1.8 XML을 이용한 설정
  * - 1.8.2 XML을 이용하는 애플리케이션 컨텍스트
+ * - 1.8.4 프로퍼티 값의 주입
  * 
  * @author Yunho Jung
  * @since 2021.04.29
@@ -30,12 +31,7 @@ import com.tobyspring.springbook.user.domain.User;
 public class UserDaoTest {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-//		ConnectionMaker connectionMaker = new DConnectionMaker();
-
-//		UserDao userDao = new UserDao(connectionMaker);
-//		UserDao userDao = new DaoFactory().userDao();
-		ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-//		ApplicationContext context = new GenericXmlApplicationContext("classpath:applicationContext.xml");
+		ApplicationContext context = new GenericXmlApplicationContext("classpath:applicationContext.xml");
 		UserDao userDao = context.getBean("userDao", UserDao.class);
 
 		User user = new User();

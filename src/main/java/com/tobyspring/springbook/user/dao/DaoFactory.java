@@ -43,10 +43,4 @@ public class DaoFactory {
 		userDao.setDataSource(dataSource());
 		return userDao;
 	}
-
-	@Bean
-	public ConnectionMaker connectionMaker() {
-		return new DConnectionMaker();
-	}
-
 }
