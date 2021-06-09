@@ -23,6 +23,8 @@ import com.tobyspring.springbook.user.domain.User;
  * - 1.7.5 메소드를 이용한 의존관계 주입
  * 1.8 XML을 이용한 설정
  * - 1.8.3 DataSource 인터페이스로 변환
+ * 2.3 개발자를 위한 테스팅 프레임워크 JUnit
+ * - 2.3.2 테스트 결과의 일관성
  * 
  * @author Yunho Jung
  * @since 2021.04.21
@@ -79,6 +81,41 @@ public class UserDao {
 		conn.close();
 
 		return user;
+	}
+	
+	/**
+	 * 
+	 * @throws SQLException
+	 */
+	public void deleteAll() throws SQLException {
+		Connection conn = dataSource.getConnection();
+		
+		PreparedStatement ps = conn.prepareStatement("delete from users");
+		ps.executeUpdate();
+		
+		ps.close();
+		conn.close();	
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getCount() throws SQLException {
+		Connection conn = dataSource.getConnection();
+		
+		PreparedStatement ps = conn.prepareStatement("select count(*) from users;");
+		
+		ResultSet rs = ps.executeQuery();
+		rs.next();
+		int count = rs.getInt(1);
+		
+		rs.close();
+		ps.close();
+		conn.close();
+		
+		return count;
 	}
 
 }
